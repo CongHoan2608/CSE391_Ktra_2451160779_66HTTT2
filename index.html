@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Library Borrow Management</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="management-card">
+      <h1>QUẢN LÝ PHIẾU MƯỢN SÁCH</h1>
+
+      <div class="summary-bar">
+        <span>Tổng số phiếu: <strong id="totalBorrows">0</strong></span>
+        <span>Đang mượn: <strong id="borrowingCount">0</strong></span>
+        <span>Đã trả: <strong id="returnedCount">0</strong></span>
+      </div>
+
+      <div class="toolbar">
+        <button id="btnAddBorrow" class="btn btn-add" type="button">THÊM PHIẾU MƯỢN</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Mã phiếu</th>
+              <th>Người mượn</th>
+              <th>Mã sách</th>
+              <th>Ngày mượn</th>
+              <th>Hạn trả</th>
+              <th>Trạng thái</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="borrowTableBody">
+            </tbody>
+        </table>
+      </div>
+      <p id="emptyMessage" class="empty-message">Hiện chưa có phiếu mượn nào.</p>
+    </section>
+  </main>
+
+  <div id="borrowModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+
+    <section class="form-card modal-content">
+      <button class="modal-close" type="button" data-close-modal>&times;</button>
+      <h2 id="formTitle">Thêm Phiếu Mượn</h2>
+
+      <form id="borrowForm" novalidate>
+        <input type="hidden" id="editingId" />
+
+        <div class="form-group">
+          <label for="borrowId">Mã phiếu mượn <span>*</span></label>
+          <input id="borrowId" name="borrowId" type="text" placeholder="PM-2048" />
+          <small class="error" id="borrowIdError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="fullName">Họ tên người mượn <span>*</span></label>
+          <input id="fullName" name="fullName" type="text" placeholder="Nguyễn Văn A" />
+          <small class="error" id="fullNameError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="bookId">Mã sách <span>*</span></label>
+          <input id="bookId" name="bookId" type="text" placeholder="BK10234" />
+          <small class="error" id="bookIdError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Thể loại sách <span>*</span></label>
+          <select id="category" name="category">
+            <option value="">Chọn thể loại</option>
+            <option value="CNTT">CNTT</option>
+            <option value="Kinh tế">Kinh tế</option>
+            <option value="Ngoại ngữ">Ngoại ngữ</option>
+            <option value="Kỹ năng">Kỹ năng</option>
+          </select>
+          <small class="error" id="categoryError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="borrowDate">Ngày mượn <span>*</span></label>
+          <input id="borrowDate" name="borrowDate" type="date" />
+          <small class="error" id="borrowDateError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="returnDate">Hạn trả <span>*</span></label>
+          <input id="returnDate" name="returnDate" type="date" />
+          <small class="error" id="returnDateError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Số điện thoại <span>*</span></label>
+          <input id="phone" name="phone" type="text" placeholder="0912345678" />
+          <small class="error" id="phoneError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email liên hệ <span>*</span></label>
+          <input id="email" name="email" type="text" placeholder="abc@library.vn" />
+          <small class="error" id="emailError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="status">Trạng thái mượn <span>*</span></label>
+          <select id="status" name="status">
+            <option value="">Chọn trạng thái</option>
+            <option value="Đang mượn">Đang mượn</option>
+            <option value="Đã trả">Đã trả</option>
+          </select>
+          <small class="error" id="statusError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Ghi chú</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Không quá 120 ký tự..."></textarea>
+          <small class="error" id="notesError"></small>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-save" type="submit">LƯU PHIẾU</button>
+          <button class="btn btn-cancel" id="btnCancel" type="button">HỦY</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="data.js"></script>
+  <script src="validation.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
