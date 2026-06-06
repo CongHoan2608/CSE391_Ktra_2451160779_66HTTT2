@@ -112,13 +112,13 @@ const LibraryApp = {
 
   editBorrow(borrowId) {
     const borrows = StorageManager.getBorrows();
-    const borrow = borrows.find(item => item.borrowId === borrowId);
+    const borrow = borrows.find(item => item.borrowId === borrowId); // Tìm phiếu cũ trong Data
 
     if (!borrow) return;
 
-    this.resetForm();
-    this.editingId = borrow.borrowId;
-
+    this.resetForm();// Dọn dẹp form trước
+    this.editingId = borrow.borrowId; // gắn cờ đang sửa bằng chính ID này
+    // Đổi tiêu đề form và khóa ô nhập Mã phiếu
     document.getElementById("formTitle").textContent = "Sửa Phiếu Mượn";
     document.getElementById("editingId").value = borrow.borrowId;
 
@@ -137,12 +137,17 @@ const LibraryApp = {
   },
 
   deleteBorrow(borrowId) {
+    // Hiển thị hộp thoại pop-up yêu cầu người dùng xác nhận lại
     if (!confirm(`Bạn có chắc chắn muốn xóa phiếu mượn ${borrowId} không?`)) return;
-
+    // Lấy toàn bộ mảng dữ liệu hiện tại ra từ LocalStorage
     const borrows = StorageManager.getBorrows();
+    //Tiến hành lọc (loại bỏ) phiếu mượn có mã trùng với mã cần xóa
     const updated = borrows.filter(b => b.borrowId !== borrowId);
 
+    //Đẩy mảng mới sau khi lọc ngược trở lại LocalStorage để lưu trữ
     StorageManager.saveBorrows(updated);
+
+    //Chạy lại hàm hiển thị bảng để cập nhật lại giao diện ngay lập tức
     this.renderTable();
   },
 
